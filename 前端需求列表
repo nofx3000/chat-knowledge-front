@@ -1,0 +1,8 @@
+我要做一个基于LLMs的RAG技术构建本地知识库的应用，前端框架使用React，UI组件使用Antd。先做出一个简单的上传文件页面，页面中有一个按钮，点击按钮可以上传一个或多个文件，格式为txt、pdf、docx、doc，大小没有限制。
+
+axios设置服务端api的前缀为http://127.0.0.1:3001
+
+请按照下面要求构建前端路由，并创建路由对应的页面，页面的内容只有一个路由标题即可
+/base 知识库列表 通过get /base 获取知识库列表渲染在页面上，每个知识库上有个点击进入按钮，可以跳转到/base/:baseid
+/base/:baseid 知识库资料表 id为baseid的知识库中的资料列表以及文件上传
+/dialogue/:baseid 知识库对话 在id为baseid的知识库中进行RAG对话。该页面仿照chatGPT，上面是对话记录，下面是一个输入框用来输入提示词，输入框右边是一个发送消息按钮。点击发送消息后，会向服务器/dialogue/:baseid地址post该页面的对话记录已经最新的提示词（此内容要按照langchain中ConversationalRetrievalQAChain可以接收的格式），服务器返回的内容添加到新一行的对话记录。
