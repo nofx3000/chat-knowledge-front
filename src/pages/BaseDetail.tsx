@@ -24,19 +24,19 @@ function BaseDetail() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchBaseDetails = async () => {
-      try {
-        const data = await getBaseWithDocuments(baseid!);
-        setBase(data);
-      } catch (err) {
-        setError("Failed to fetch base details. Please try again later.");
-        console.error("Error fetching base details:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchBaseDetails = async () => {
+    try {
+      const data = await getBaseWithDocuments(baseid!);
+      setBase(data);
+    } catch (err) {
+      setError("Failed to fetch base details. Please try again later.");
+      console.error("Error fetching base details:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchBaseDetails();
   }, [baseid]);
 
@@ -46,6 +46,10 @@ function BaseDetail() {
 
   const handleGoHome = () => {
     navigate("/");
+  };
+
+  const handleUploadSuccess = () => {
+    fetchBaseDetails(); // 刷新资料列表
   };
 
   if (loading) {
@@ -88,9 +92,9 @@ function BaseDetail() {
               ))}
             </ul>
           ) : (
-            <p>No documents found.</p>
+            <p>尚未上传资料。</p>
           )}
-          <FileUpload baseId={baseid!} />
+          <FileUpload baseId={baseid!} onUploadSuccess={handleUploadSuccess} />
         </>
       )}
     </div>

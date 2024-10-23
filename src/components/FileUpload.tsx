@@ -6,9 +6,10 @@ const { Dragger } = Upload;
 
 interface FileUploadProps {
   baseId: string;
+  onUploadSuccess: () => void; // 新增的回调函数
 }
 
-const FileUpload: React.FC<FileUploadProps> = ({ baseId }) => {
+const FileUpload: React.FC<FileUploadProps> = ({ baseId, onUploadSuccess }) => {
   const props = {
     name: "files",
     multiple: true,
@@ -21,6 +22,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ baseId }) => {
       }
       if (status === "done") {
         message.success(`${info.file.name} 文件上传成功。`);
+        onUploadSuccess(); // 调用回调函数
       } else if (status === "error") {
         message.error(`${info.file.name} 文件上传失败。`);
       }
@@ -36,9 +38,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ baseId }) => {
         <InboxOutlined />
       </p>
       <p className="ant-upload-text">点击或拖拽文件到此区域上传</p>
-      <p className="ant-upload-hint">
-        支持单个或批量上传。严禁上传公司数据或其他敏感文件。
-      </p>
+      <p className="ant-upload-hint">支持单个或批量上传。</p>
     </Dragger>
   );
 };
