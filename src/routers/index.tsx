@@ -3,6 +3,8 @@ import { RouteObject, useRoutes } from "react-router-dom";
 import BaseList from "../pages/BaseList";
 import BaseDetail from "../pages/BaseDetail";
 import Dialogue from "../pages/Dialogue";
+import Generator from "../pages/Generator";
+import Outline from "../pages/Outline";
 
 const routes: RouteObject[] = [
   {
@@ -16,6 +18,14 @@ const routes: RouteObject[] = [
   {
     path: "/dialogue/:baseid",
     element: <Dialogue />,
+  },
+  {
+    path: "/outline",
+    element: <Outline />,
+  },
+  {
+    path: "/generator/:baseid",
+    element: <Generator />,
   },
 ];
 

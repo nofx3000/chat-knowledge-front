@@ -76,9 +76,9 @@ function BaseDetail() {
           >
             <Space>
               <h1 style={{ margin: 0 }}>资料库：{base.name}</h1>
-              <Button type="primary" onClick={handleDialogueClick}>
+              {/* <Button type="primary" onClick={handleDialogueClick}>
                 与资料库进行对话
-              </Button>
+              </Button> */}
             </Space>
             <Button icon={<HomeOutlined />} onClick={handleGoHome}>
               首页

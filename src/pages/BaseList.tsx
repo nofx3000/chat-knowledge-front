@@ -41,7 +41,7 @@ function BaseList() {
   };
 
   const handleEnterBase = (baseId: number) => {
-    navigate(`/base/${baseId}`);
+    navigate(`/generator/${baseId}`);
   };
 
   const handleCreateBase = async () => {

@@ -53,22 +53,27 @@ function Dialogue() {
 
       let aiResponse = ""; // 用于累积 AI 的响应
       // 调用流式对话 API
-      await postDialogueStream(baseid!, chatHistory, inputValue, (token) => {
-        aiResponse += token; // 累积接收到的 token
-        setMessages((prev) => {
-          const newMessages = [...prev];
-          const lastMessage = newMessages[newMessages.length - 1];
-          if (lastMessage.role === "ai") {
-            // 如果最后一条消息是 AI 的，更新其内容
-            // 如果只是单纯的lastMessage.content += token会出现重复拼接的问题
-            lastMessage.content = aiResponse;
-          } else {
-            // 这一步是把生成的内容添加到历史记录
-            newMessages.push({ role: "ai", content: aiResponse });
-          }
-          return newMessages;
-        });
-      });
+      await postDialogueStream(
+        `/dialogue/generateContent/${baseid}`,
+        chatHistory,
+        inputValue,
+        (token) => {
+          aiResponse += token; // 累积接收到的 token
+          setMessages((prev) => {
+            const newMessages = [...prev];
+            const lastMessage = newMessages[newMessages.length - 1];
+            if (lastMessage.role === "ai") {
+              // 如果最后一条消息是 AI 的，更新其内容
+              // 如果只是单纯的lastMessage.content += token会出现重复拼接的问题
+              lastMessage.content = aiResponse;
+            } else {
+              // 这一步是把生成的内容添加到历史记录
+              newMessages.push({ role: "ai", content: aiResponse });
+            }
+            return newMessages;
+          });
+        }
+      );
     } catch (error) {
       console.error("Error in dialogue:", error);
       // 如果发生错误，添加一条错误消息

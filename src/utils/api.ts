@@ -45,14 +45,14 @@ export const createBase = async (baseName: string) => {
 };
 
 export const postDialogueStream = async (
-  baseid: string,
+  url: string,
   chatHistory: [string, string][],
   question: string,
   onChunk: (chunk: string) => void
 ) => {
   try {
     const start_time = Date.now();
-    const response = await fetch(`${API_BASE_URL}/dialogue/${baseid}`, {
+    const response = await fetch(`${API_BASE_URL}${url}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
