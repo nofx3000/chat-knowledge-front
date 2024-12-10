@@ -1,6 +1,7 @@
 import React from "react";
 import { Upload, message } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
+import { API_BASE_URL as base_url } from "../utils/api";
 
 const { Dragger } = Upload;
 
@@ -13,7 +14,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ baseId, onUploadSuccess }) => {
   const props = {
     name: "files",
     multiple: true,
-    action: `http://localhost:3001/base/${baseId}/books`, // 使用传入的 baseId
+    action: `${base_url}/base/${baseId}/books`, // 使用传入的 baseId
     accept: ".txt,.pdf,.docx,.doc",
     onChange(info: any) {
       const { status } = info.file;
