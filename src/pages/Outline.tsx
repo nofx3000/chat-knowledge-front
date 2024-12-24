@@ -2,27 +2,32 @@ import React, { useState } from "react";
 import { Input, Button, Typography, Space } from "antd";
 import { SendOutlined } from "@ant-design/icons";
 import { postDialogueStream } from "../utils/api";
+import { observer } from 'mobx-react';
+import store from '../mobx/mobx';
 
 const { TextArea } = Input;
 const { Title } = Typography;
 
-function Outline() {
+const Outline: React.FC = observer(() => {
   const [title, setTitle] = useState("");
   const [outline, setOutline] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleGenerateOutline = async () => {
+    console.log("title");
+    
+    console.log('Current Prompt Values:', store.promptValues);
+    return;
     if (!title.trim()) return;
-
     setLoading(true);
-    setOutline(""); // 清空之前的内容
+    setOutline("");
 
     try {
       let generatedOutline = "";
       await postDialogueStream(
         `/dialogue/generateOutline`,
-        [], // 空的对话历史
-        title.trim(), // 使用标题作为输入
+        [],
+        title.trim(),
         (token) => {
           generatedOutline += token;
           setOutline(generatedOutline);
@@ -41,10 +46,10 @@ function Outline() {
   };
 
   return (
-    <div style={{ maxWidth: "800px", margin: "0 auto", padding: "20px" }}>
-      <Title level={2}>文章提纲生成</Title>
+    <div style={{ padding: "20px", flex: 1, display: 'flex', flexDirection: 'column' }}>
+      <Title level={4} style={{ margin: '0 0 16px 0' }}>文章提纲生成</Title>
 
-      <Space.Compact style={{ width: "100%", marginBottom: "20px" }}>
+      <Space.Compact style={{ width: "100%", marginBottom: "16px" }}>
         <Input
           placeholder="请输入文章标题"
           value={title}
@@ -66,11 +71,11 @@ function Outline() {
         value={outline}
         onChange={handleOutlineChange}
         placeholder="生成的提纲将显示在这里..."
-        autoSize={{ minRows: 20, maxRows: 50 }}
-        style={{ marginBottom: "20px" }}
+        autoSize={{ minRows: 6, maxRows: 12 }}
+        style={{ flex: 1 }}
       />
     </div>
   );
-}
+});
 
 export default Outline;

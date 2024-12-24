@@ -11,13 +11,13 @@ COPY package*.json ./
 RUN npm config set fetch-retries 5 && npm config set fetch-retry-mintimeout 20000 && npm config set fetch-retry-maxtimeout 120000
 
 # 安装项目依赖
-RUN npm install
+RUN npm install --registry=https://registry.npmmirror.com
 
 # 复制项目文件到容器中
 COPY . .
 
 # 暴露端口（根据您的应用需要修改）
-EXPOSE 3001
+EXPOSE 3000
 
 # 启动应用
 CMD ["npm", "start"] 
