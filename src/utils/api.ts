@@ -47,7 +47,7 @@ export const createBase = async (baseName: string) => {
 export const postDialogueStream = async (
   url: string,
   chatHistory: [string, string][],
-  question: string,
+  payload: string | Record<string, any>,
   onChunk: (chunk: string) => void
 ) => {
   try {
@@ -58,7 +58,10 @@ export const postDialogueStream = async (
         "Content-Type": "application/json",
         Accept: "text/event-stream",
       },
-      body: JSON.stringify({ chat_history: chatHistory, question }),
+      body: JSON.stringify({
+        chat_history: chatHistory,
+        payload: typeof payload === "string" ? payload : { ...payload },
+      }),
     });
     console.log("请求时间为", (Date.now() - start_time) / 1000, "秒");
     if (!response.ok) {

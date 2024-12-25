@@ -1,17 +1,90 @@
-import React, { useState } from "react";
-import { Input, Typography, Space, Tabs } from "antd";
+import React, { useState, useMemo } from "react";
+import { Input, Typography, Space, Tabs, Button, message } from "antd";
 import ReactMarkdown from "react-markdown";
+import { postDialogueStream } from "../utils/api";
+import { observer } from "mobx-react";
+import store from "../mobx/mobx";
+import { useParams } from "react-router-dom";
 
 const { TextArea } = Input;
 const { Title } = Typography;
 
-function ContentGenerater() {
+const ContentGenerater: React.FC = observer(() => {
+  const { baseid } = useParams<{ baseid: string }>();
   const [content, setContent] = useState("");
+  const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<"edit" | "preview">("preview");
+
+  const isGenerateDisabled = useMemo(() => {
+    return (
+      !store.promptValues.contentType.trim() ||
+      !store.outlineValues.title.trim() ||
+      !store.outlineValues.content.trim()
+    );
+  }, [
+    store.promptValues.contentType,
+    store.outlineValues.title,
+    store.outlineValues.content,
+  ]);
+
+  const handleGenerate = async () => {
+    if (!baseid) {
+      console.error("No baseid provided");
+      return;
+    }
+
+    if (isGenerateDisabled) {
+      message.error("请输入内容类型、文章标题和提纲！");
+      return;
+    }
+
+    console.log("Current Store State:", {
+      baseid,
+      title: store.outlineValues.title.trim(),
+      outline: store.outlineValues.content,
+      contentType: store.promptValues.contentType,
+    });
+
+    setLoading(true);
+    setContent("");
+
+    try {
+      let generatedContent = "";
+      await postDialogueStream(
+        `/dialogue/generateContent/${baseid}`,
+        [],
+        {
+          title: store.outlineValues.title.trim(),
+          outline: store.outlineValues.content,
+          contentType: store.promptValues.contentType,
+        },
+        (token) => {
+          generatedContent += token;
+          setContent(generatedContent);
+        }
+      );
+    } catch (error) {
+      console.error("Error generating content:", error);
+      setContent("生成文章时发生错误，请稍后重试。");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div style={{ padding: "20px" }}>
-      <Title level={2}>研究报告生成</Title>
+      <Title level={4} style={{ marginTop: 0 }}>
+        步骤四：文章生成
+      </Title>
+      <Button
+        type="primary"
+        style={{ width: "100%" }}
+        onClick={handleGenerate}
+        loading={loading}
+        disabled={isGenerateDisabled}
+      >
+        开始生成
+      </Button>
 
       <Space direction="vertical" style={{ width: "100%" }}>
         <Tabs
@@ -55,6 +128,6 @@ function ContentGenerater() {
       </Space>
     </div>
   );
-}
+});
 
 export default ContentGenerater;

@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getBaseWithDocuments } from "../utils/api";
 import FileUpload from "../components/FileUpload"; // 导入 FileUpload 组件
-import { Button, Space } from "antd"; // 导入 Button 组件
+import { Button, Typography } from "antd"; // 导入 Button 组件
 import { HomeOutlined } from "@ant-design/icons";
+const { Title } = Typography;
 
 interface Base {
   id: number;
@@ -74,19 +75,20 @@ function BaseDetail() {
               marginBottom: "20px",
             }}
           >
-            <Space>
-              <h1 style={{ margin: 0 }}>资料库：{base.name}</h1>
-              {/* <Button type="primary" onClick={handleDialogueClick}>
+            <h1 style={{ margin: 0 }}>资料库：</h1>
+            <h1 style={{ margin: 0 }}>{base.name}</h1>
+            {/* <Button type="primary" onClick={handleDialogueClick}>
                 与资料库进行对话
               </Button> */}
-            </Space>
             <Button icon={<HomeOutlined />} onClick={handleGoHome}>
               首页
             </Button>
           </div>
-          <h3>文档列表：</h3>
+          <Title level={4} style={{ margin: "0 0 16px 0" }}>
+            步骤一：上传参考文档
+          </Title>
           {base.documents && base.documents.length > 0 ? (
-            <ul>
+            <ul style={{ padding: 0 }}>
               {base.documents.map((doc) => (
                 <li key={doc.id}>{doc.title}</li>
               ))}
