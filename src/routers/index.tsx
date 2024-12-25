@@ -11,18 +11,18 @@ const routes: RouteObject[] = [
     path: "/",
     element: <BaseList />,
   },
-  {
-    path: "/base/:baseid",
-    element: <BaseDetail />,
-  },
-  {
-    path: "/dialogue/:baseid",
-    element: <Dialogue />,
-  },
-  {
-    path: "/outline",
-    element: <Outline />,
-  },
+  // {
+  //   path: "/base/:baseid",
+  //   element: <BaseDetail />,
+  // },
+  // {
+  //   path: "/dialogue/:baseid",
+  //   element: <Dialogue />,
+  // },
+  // {
+  //   path: "/outline",
+  //   element: <Outline />,
+  // },
   {
     path: "/generator/:baseid",
     element: <Generator />,
