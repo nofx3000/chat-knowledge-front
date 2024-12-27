@@ -1,10 +1,12 @@
 import React, { useState, useMemo } from "react";
 import { Input, Typography, Space, Tabs, Button, message } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
 import ReactMarkdown from "react-markdown";
 import { postDialogueStream } from "../utils/api";
 import { observer } from "mobx-react";
 import store from "../mobx/mobx";
 import { useParams } from "react-router-dom";
+import api from "../utils/api";
 
 const { TextArea } = Input;
 const { Title } = Typography;
@@ -26,6 +28,17 @@ const ContentGenerater: React.FC = observer(() => {
     store.outlineValues.title,
     store.outlineValues.content,
   ]);
+
+  const handleStop = async () => {
+    try {
+      await api.get("/dialogue/stop");
+      setLoading(false);
+      message.success("已停止生成");
+    } catch (error) {
+      console.error("Error stopping generation:", error);
+      message.error("停止生成失败");
+    }
+  };
 
   const handleGenerate = async () => {
     if (!baseid) {
@@ -77,13 +90,15 @@ const ContentGenerater: React.FC = observer(() => {
         步骤四：文章生成
       </Title>
       <Button
-        type="primary"
+        type={loading ? "primary" : "primary"}
+        danger={loading}
         style={{ width: "100%" }}
-        onClick={handleGenerate}
-        loading={loading}
-        disabled={isGenerateDisabled}
+        onClick={loading ? handleStop : handleGenerate}
+        // loading={loading}
+        // disabled={!loading && isGenerateDisabled}
       >
-        开始生成
+        {loading ? <LoadingOutlined /> : null}
+        {loading ? "停止生成" : "开始生成"}
       </Button>
 
       <Space direction="vertical" style={{ width: "100%" }}>

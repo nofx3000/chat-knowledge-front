@@ -15,13 +15,21 @@ function Generator() {
           height: "100%",
           display: "flex",
           flexDirection: "column",
+          overflow: "auto",
         }}
       >
         <div style={{ flex: "0 0 auto" }}>
           <BaseDetail />
         </div>
       </Col>
-      <Col span={6} style={{ height: "100%" }}>
+      <Col
+        span={6}
+        style={{
+          height: "100%",
+          overflow: "auto",
+          borderRight: "1px solid #f0f0f0",
+        }}
+      >
         <div
           style={{ flex: "1 1 auto", display: "flex", flexDirection: "column" }}
         >
@@ -29,7 +37,7 @@ function Generator() {
           <Outline />
         </div>
       </Col>
-      <Col span={12} style={{ height: "100%" }}>
+      <Col span={12} style={{ height: "100%", overflow: "auto" }}>
         <ContentGenerater />
       </Col>
     </Row>
