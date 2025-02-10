@@ -7,7 +7,7 @@ import Outline from "./Outline";
 
 function Generator() {
   return (
-    <Row style={{ height: "100vh" }}>
+    <Row style={{ height: "92vh" }}>
       <Col
         span={6}
         style={{

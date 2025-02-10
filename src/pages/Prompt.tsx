@@ -44,7 +44,7 @@ const Prompt: React.FC = observer(() => {
         />
       </div>
 
-      <div style={{ marginBottom: "16px" }}>
+      {/* <div style={{ marginBottom: "16px" }}>
         <div style={{ marginBottom: "8px" }}>字数要求</div>
         <InputNumber
           min={1}
@@ -53,7 +53,7 @@ const Prompt: React.FC = observer(() => {
           value={store.promptValues?.wordCount || null}
           onChange={handleWordCountChange}
         />
-      </div>
+      </div> */}
 
       <div style={{ marginBottom: "16px" }}>
         <div style={{ marginBottom: "8px" }}>具体要求</div>
