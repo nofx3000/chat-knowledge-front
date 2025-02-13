@@ -36,7 +36,7 @@ const ContentGenerater: React.FC = observer(() => {
       message.success("已停止生成");
     } catch (error) {
       console.error("Error stopping generation:", error);
-      message.error("停止生成失败");
+      message.error("停止生成失败,请稍后重试");
     }
   };
 
@@ -133,7 +133,7 @@ const ContentGenerater: React.FC = observer(() => {
                   }}
                 >
                   <ReactMarkdown>
-                    {content || "预览内容将显示在这里..."}
+                    {content.replace(/<think>[\s\S]*?<\/think>/g, '') || "预览内容将显示在这里..."}
                   </ReactMarkdown>
                 </div>
               ),
